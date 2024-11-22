@@ -91,9 +91,13 @@ public class OraclePaddingClient {
 
         byte[][] result = new byte[blocNumber][BLOCK_SIZE];
 
-        /*
-        TODO : YOUR CODE HERE
-         */
+        // MODIFICATION 
+        int i,j;
+        for(i=0; i<blocNumber; i++){
+            for(j=0; j<BLOCK_SIZE; j++){
+                result[i][j] = message[(i*BLOCK_SIZE) + j];
+            }
+        }
         return result;
     }
 
