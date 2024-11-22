@@ -8,6 +8,8 @@ import static org.dador.paddingOracleClient.HexConverters.*;
 
 /**
  * Main Class for Padding OracleClient
+ * NGOM Maty
+ * NKAM TCHUIENTE Wilfried Arnauld
  */
 public class OraclePaddingClient {
     static final String ENCRYPTED_MESSAGE = "5ca00ff4c878d61e1edbf1700618fb287c21578c0580965dad57f70636ea402fa0017c4acc82717730565174e2e3f713d3921bab07cba15f3197b87976525ce4";
