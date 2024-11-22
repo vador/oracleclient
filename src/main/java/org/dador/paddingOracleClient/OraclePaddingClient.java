@@ -54,8 +54,17 @@ public class OraclePaddingClient {
          */
         System.arraycopy(iv, 0, result, 0, BLOCK_SIZE); // Copier IV dans le résultat
 
-        // Modifier uniquement le dernier octet
-        result[BLOCK_SIZE - 1] = (byte) (iv[BLOCK_SIZE - 1] ^ guess ^ 0x01);
+        // Construire le tableau de padding pour la position donnée
+        int paddingValue = BLOCK_SIZE - position;
+        byte[] paddingArray = buildPaddingArray(paddingValue);
+
+        // Modifier l'octet cible avec le guess
+        result[position] = (byte) (iv[position] ^ guess ^ paddingArray[position]);
+
+        // Ajuster les octets suivants avec le padding et les valeurs déchiffrées
+        for (int i = position + 1; i < BLOCK_SIZE; i++) {
+            result[i] = (byte) (iv[i] ^ decoded[i] ^ paddingArray[i]);
+        }
         return result;
     }
 
