@@ -3,8 +3,6 @@ package org.dador.paddingOracleClient;
 import org.junit.Assert;
 import org.junit.Test;
 
-import static org.dador.paddingOracleClient.HexConverters.toByteArrayFromHex;
-
 /**
  * Test for connexion to Padding Oracle
  * Created by dame on 18/10/2016.
