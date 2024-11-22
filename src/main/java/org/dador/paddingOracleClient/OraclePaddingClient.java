@@ -28,6 +28,14 @@ public class OraclePaddingClient {
         /**
          * TODO : Your CODE HERE
          */
+        for(int i=BLOCK_SIZE-1 ;i>=0 ;i--){
+            if(i >= BLOCK_SIZE - n ){
+                result[i] = (byte) n;
+            }
+            else {
+                result[i] = 0;
+            }
+        }
         return result;
     }
 
