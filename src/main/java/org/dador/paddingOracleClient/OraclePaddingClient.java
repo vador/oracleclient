@@ -48,12 +48,17 @@ public class OraclePaddingClient {
      * @param guess : the guess for this query
      * @return a byte array with c0...c(i-1)||ci+i+g||cj+mj+i||...||cn+mn+i
      */
+    int iV;
     protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
         byte[] result = new byte[BLOCK_SIZE];
 
         /**
          * TODO : YOUR CODE HERE
-         */
+         */ //
+         
+             result[BLOCK_SIZE-1]= (byte)(iv[BLOCK_SIZE-1] ^ guess ^ 1 );
+         
+        
         return result;
     }
 
