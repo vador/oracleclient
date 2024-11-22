@@ -12,6 +12,7 @@ import java.net.URISyntaxException;
 import static org.dador.paddingOracleClient.HexConverters.toByteArrayFromHex;
 import static org.dador.paddingOracleClient.HexConverters.toHexFromByteArray;
 import static org.dador.paddingOracleClient.HexConverters.toPrintableString;
+import static org.dador.paddingOracleClient.HexConverters.xorArray;
 
 /**
  * Main Class for Padding OracleClient
@@ -58,11 +59,15 @@ public class OraclePaddingClient {
 
         /**
          * TODO : YOUR CODE HERE
-         */ //
          
-             result[BLOCK_SIZE-1]= (byte)(iv[BLOCK_SIZE-1] ^ guess ^ 1 );
-         
-        
+            // result[BLOCK_SIZE-1]= (byte)(iv[BLOCK_SIZE-1] ^ guess ^ 1 );
+            /* 
+        /*  */
+        byte[] b= xorArray(decoded, iv );
+
+        result= xorArray(b, buildPaddingArray(BLOCK_SIZE-position));
+
+        result[position]=(byte)(result[position]^ guess);
         return result;
     }
 
