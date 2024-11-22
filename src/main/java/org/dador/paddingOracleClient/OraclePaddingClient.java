@@ -8,6 +8,8 @@ import static org.dador.paddingOracleClient.HexConverters.*;
 
 /**
  * Main Class for Padding OracleClient
+ * NGOM Maty
+ * NKAM TCHUIENTE Wilfried Arnauld
  */
 public class OraclePaddingClient {
     static final String ENCRYPTED_MESSAGE = "5ca00ff4c878d61e1edbf1700618fb287c21578c0580965dad57f70636ea402fa0017c4acc82717730565174e2e3f713d3921bab07cba15f3197b87976525ce4";
@@ -27,6 +29,9 @@ public class OraclePaddingClient {
         /**
          * TODO : Your CODE HERE
          */
+        for (int i = BLOCK_SIZE - n; i < BLOCK_SIZE; i++) {
+            result[i] = (byte) n;
+        }
         return result;
     }
 
@@ -47,7 +52,23 @@ public class OraclePaddingClient {
         /**
          * TODO : YOUR CODE HERE
          */
+        System.arraycopy(iv, 0, result, 0, BLOCK_SIZE); // Copier IV dans le résultat
 
+        // Construire le tableau de padding pour la position donnée
+        int paddingValue = BLOCK_SIZE - position;
+        byte[] paddingArray = buildPaddingArray(paddingValue);
+/* 
+        // Modifier l'octet cible avec le guess
+        result[position] = (byte) (iv[position] ^ guess ^ paddingArray[position]);
+
+        // Ajuster les octets suivants avec le padding et les valeurs déchiffrées
+        for (int i = position + 1; i < BLOCK_SIZE; i++) {
+            result[i] = (byte) (iv[i] ^ decoded[i] ^ paddingArray[i]);
+        }
+*/      
+        result = xorArray(iv, decoded);
+        result = xorArray(result, paddingArray);
+        result[position] = (byte)(result[position]^guess);
         return result;
     }
 
@@ -89,6 +110,9 @@ public class OraclePaddingClient {
         /*
         TODO : YOUR CODE HERE
          */
+        for (int i = 0; i < blocNumber; i++) {
+            System.arraycopy(message, i * BLOCK_SIZE, result[i], 0, BLOCK_SIZE);
+        }     
         return result;
     }
 
@@ -163,8 +187,8 @@ public class OraclePaddingClient {
             String hexresult = "";
             int padlen;
 
-            //for (int i = 0; i < messageblocks.length - 1; i++) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < messageblocks.length - 1; i++) {
+            //for (int i = 0; i < 1; i++) {
 
                 if (i == messageblocks.length - 2) {
                     System.out.print("Decodage du dernier bloc : calcul du padding");
