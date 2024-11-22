@@ -1,12 +1,11 @@
 package org.dador.paddingOracleClient;
 
-import org.junit.Assert;
-import org.junit.Test;
-
 import static org.dador.paddingOracleClient.HexConverters.toByteArrayFromHex;
 import static org.dador.paddingOracleClient.OraclePaddingClient.BLOCK_SIZE;
+import org.junit.Assert;
 import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
+import org.junit.Test;
 
 /**
  * Tests for the OraclePadding Decryption client

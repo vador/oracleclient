@@ -33,7 +33,11 @@ public class OraclePaddingClient {
 
         /**
          * TODO : Your CODE HERE
-         */
+                  */
+        for (int i = BLOCK_SIZE-n; i < BLOCK_SIZE; i++) {
+
+            result[i]= (byte) n;
+        }
         return result;
     }
 
