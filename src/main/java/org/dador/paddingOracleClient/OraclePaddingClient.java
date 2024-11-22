@@ -23,10 +23,13 @@ public class OraclePaddingClient {
      */
     protected byte[] buildPaddingArray(int n) {
         byte[] result = new byte[BLOCK_SIZE];
+        // Valeur de remplissage pour le padding (n)
+        byte paddingValue = (byte) n;
 
-        /**
-         * TODO : Your CODE HERE
-         */
+    // Remplir les derniers n octets en appliquant un XOR
+        for (int i = BLOCK_SIZE - n; i < BLOCK_SIZE; i++) {
+        result[i] = (byte) (result[i] ^ paddingValue);
+    }
         return result;
     }
 
@@ -43,11 +46,8 @@ public class OraclePaddingClient {
      */
     protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
         byte[] result = new byte[BLOCK_SIZE];
-
-        /**
-         * TODO : YOUR CODE HERE
-         */
-
+        result[BLOCK_SIZE-1]=(byte)(iv[BLOCK_SIZE-1]^guess^1);
+        
         return result;
     }
 
@@ -85,10 +85,14 @@ public class OraclePaddingClient {
         int blocNumber = message.length / BLOCK_SIZE;
 
         byte[][] result = new byte[blocNumber][BLOCK_SIZE];
+        int i,j;
+        for(i=0; i<blocNumber; i++){
+            for(j=0; j<BLOCK_SIZE; j++){
+                result[i][j] = message[(i*BLOCK_SIZE) + j];
+            }
+        }
 
-        /*
-        TODO : YOUR CODE HERE
-         */
+      
         return result;
     }
 
