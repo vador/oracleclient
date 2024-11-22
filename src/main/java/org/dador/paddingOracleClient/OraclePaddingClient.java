@@ -52,6 +52,12 @@ public class OraclePaddingClient {
         /**
          * TODO : YOUR CODE HERE
          */
+        for(int i=0; i < BLOCK_SIZE;i++){
+            result[i] = iv[i];
+            if (i == BLOCK_SIZE-1) {
+                result[i] = (byte) (iv[i] ^ guess ^ 0x1);
+            }
+        }
 
         return result;
     }
@@ -91,7 +97,9 @@ public class OraclePaddingClient {
 
         byte[][] result = new byte[blocNumber][BLOCK_SIZE];
 
-        // MODIFICATION 
+     /**
+        *TODO : YOUR CODE HERE
+        */
         int i,j;
         for(i=0; i<blocNumber; i++){
             for(j=0; j<BLOCK_SIZE; j++){
