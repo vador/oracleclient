@@ -1,3 +1,10 @@
+/*
+ AZZOUZ Abderrezak
+ ABDELDAIM Yasser
+ */
+
+
+
 package org.dador.paddingOracleClient;
 
 
@@ -24,9 +31,10 @@ public class OraclePaddingClient {
     protected byte[] buildPaddingArray(int n) {
         byte[] result = new byte[BLOCK_SIZE];
 
-        /**
-         * TODO : Your CODE HERE
-         */
+        for (int i = BLOCK_SIZE - n; i < BLOCK_SIZE; i++) {
+        result[i] = (byte) n;
+        }
+
         return result;
     }
 
@@ -41,15 +49,37 @@ public class OraclePaddingClient {
      * @param guess    : the guess for this query
      * @return a byte array with c0...c(i-1)||ci+i+g||cj+mj+i||...||cn+mn+i
      */
-    protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
+
+    /* 
+     protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
+        
         byte[] result = new byte[BLOCK_SIZE];
-
-        /**
-         * TODO : YOUR CODE HERE
-         */
-
+        result[BLOCK_SIZE-1]=(byte) (iv[BLOCK_SIZE-1]^guess^ 1);
         return result;
     }
+    */
+
+    protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
+        byte[] result = new byte[BLOCK_SIZE];
+        
+        // Calculer la valeur de padding en fonction de la position
+        int paddingValue = BLOCK_SIZE - position; // paddingValue est la valeur que nous ajouterons à l'octet
+    
+        byte[] padding = buildPaddingArray(paddingValue);
+        result = xorArray(iv, padding);
+        result = xorArray(result, decoded);
+        result[position]=(byte) (result[position]^guess);
+
+        
+        
+        
+        return result;
+    }
+    
+
+
+
+    
 
     /**
      * Function that takes the 2 last blocks of the message
@@ -77,20 +107,23 @@ public class OraclePaddingClient {
      * @return an array of blocs
      * @throws IllegalArgumentException
      */
+
     protected byte[][] splitMessageIntoBlocks(byte[] message) throws IllegalArgumentException {
         if (message.length % BLOCK_SIZE != 0) {
-            throw new IllegalArgumentException("Message length is not a multiple of bloc size");
+            throw new IllegalArgumentException("Message length is not a multiple of block size");
         }
-
-        int blocNumber = message.length / BLOCK_SIZE;
-
-        byte[][] result = new byte[blocNumber][BLOCK_SIZE];
-
-        /*
-        TODO : YOUR CODE HERE
-         */
+    
+        int blocNumber = message.length / BLOCK_SIZE; // Nombre de blocs
+        byte[][] result = new byte[blocNumber][BLOCK_SIZE]; // Tableau pour contenir les blocs
+    
+        // Découper le message en blocs
+        for (int i = 0; i < blocNumber; i++) {
+            System.arraycopy(message, i * BLOCK_SIZE, result[i], 0, BLOCK_SIZE);
+        }
+    
         return result;
     }
+    
 
     /**
      * Function that takes 2 consecutive blocks of the ciphertext
@@ -163,8 +196,8 @@ public class OraclePaddingClient {
             String hexresult = "";
             int padlen;
 
-            //for (int i = 0; i < messageblocks.length - 1; i++) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < messageblocks.length - 1; i++) {
+            //for (int i = 0; i < 1; i++) {
 
                 if (i == messageblocks.length - 2) {
                     System.out.print("Decodage du dernier bloc : calcul du padding");
