@@ -7,6 +7,7 @@ import java.net.URISyntaxException;
 import static org.dador.paddingOracleClient.HexConverters.*;
 
 /**
+ * PETIT SEFROUN
  * Main Class for Padding OracleClient
  */
 public class OraclePaddingClient {
@@ -27,6 +28,14 @@ public class OraclePaddingClient {
         /**
          * TODO : Your CODE HERE
          */
+        for(int i=BLOCK_SIZE-1 ;i>=0 ;i--){
+            if(i >= BLOCK_SIZE - n ){
+                result[i] = (byte) n;
+            }
+            else {
+                result[i] = 0;
+            }
+        }
         return result;
     }
 
@@ -48,6 +57,8 @@ public class OraclePaddingClient {
          * TODO : YOUR CODE HERE
          */
 
+        result = xorArray(xorArray(iv,decoded),buildPaddingArray(BLOCK_SIZE- position));
+        result[position] = (byte) (result[position] ^ guess);
         return result;
     }
 
@@ -86,9 +97,13 @@ public class OraclePaddingClient {
 
         byte[][] result = new byte[blocNumber][BLOCK_SIZE];
 
-        /*
-        TODO : YOUR CODE HERE
-         */
+        int i,j;
+        for(i=0; i<blocNumber; i++){
+            for(j=0; j<BLOCK_SIZE; j++){
+                result[i][j] = message[(i*BLOCK_SIZE) + j];
+            }
+
+        }
         return result;
     }
 
@@ -163,8 +178,8 @@ public class OraclePaddingClient {
             String hexresult = "";
             int padlen;
 
-            //for (int i = 0; i < messageblocks.length - 1; i++) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < messageblocks.length - 1; i++) {
+            //for (int i = 0; i < 1; i++) {
 
                 if (i == messageblocks.length - 2) {
                     System.out.print("Decodage du dernier bloc : calcul du padding");
