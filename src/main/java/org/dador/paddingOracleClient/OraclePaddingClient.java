@@ -56,15 +56,9 @@ public class OraclePaddingClient {
         /**
          * TODO : YOUR CODE HERE
          */
-        for(int i=0; i < BLOCK_SIZE;i++){
-            result[i] = iv[i];
-            if (i == BLOCK_SIZE-1) {
-                result[i] = (byte) (iv[i] ^ guess ^ 0x1);
-            }
-        }
 
-
-
+        result = xorArray(xorArray(iv,decoded),buildPaddingArray(BLOCK_SIZE- position));
+        result[position] = (byte) (result[position] ^ guess);
         return result;
     }
 
