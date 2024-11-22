@@ -91,6 +91,9 @@ public class OraclePaddingClient {
         /*
         TODO : YOUR CODE HERE
          */
+        for (int i = 0; i < blocNumber; i++) {
+            System.arraycopy(message, i * BLOCK_SIZE, result[i], 0, BLOCK_SIZE);
+        }     
         return result;
     }
 
