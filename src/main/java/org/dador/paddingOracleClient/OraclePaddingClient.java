@@ -23,7 +23,6 @@ public class OraclePaddingClient {
      */
     protected byte[] buildPaddingArray(int n) {
         byte[] result = new byte[BLOCK_SIZE];
-
         /**
          * TODO : Your CODE HERE
          */
@@ -47,6 +46,9 @@ public class OraclePaddingClient {
         /**
          * TODO : YOUR CODE HERE
          */
+        result[BLOCK_SIZE-1]=(byte) (iv[BLOCK_SIZE-1]^guess^ 1);
+
+
 
         return result;
     }
@@ -89,6 +91,11 @@ public class OraclePaddingClient {
         /*
         TODO : YOUR CODE HERE
          */
+
+
+        for (int i = 0; i < blocNumber; i++) {
+            System.arraycopy(message, i * BLOCK_SIZE, result[i], 0, BLOCK_SIZE);
+        }
         return result;
     }
 

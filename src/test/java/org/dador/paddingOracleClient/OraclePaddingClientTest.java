@@ -1,12 +1,11 @@
 package org.dador.paddingOracleClient;
 
+import static org.dador.paddingOracleClient.HexConverters.*;
+import static org.dador.paddingOracleClient.OraclePaddingClient.*;
+import static org.junit.Assert.*;
+
 import org.junit.Assert;
 import org.junit.Test;
-
-import static org.dador.paddingOracleClient.HexConverters.toByteArrayFromHex;
-import static org.dador.paddingOracleClient.OraclePaddingClient.BLOCK_SIZE;
-import static org.junit.Assert.assertArrayEquals;
-import static org.junit.Assert.assertEquals;
 
 /**
  * Tests for the OraclePadding Decryption client
@@ -60,6 +59,7 @@ public class OraclePaddingClientTest {
         expected[expected.length - 1] = (byte) 2;
         expected[expected.length - 2] = (byte) 2;
         byte[] result = opc.buildPaddingArray(2);
+
         assertArrayEquals(expected, result);
     }
 
