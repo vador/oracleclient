@@ -32,6 +32,16 @@ public class OraclePaddingClient {
         /**
          * TODO : Your CODE HERE
          */
+
+        for(int i=BLOCK_SIZE-1 ;i>=0 ;i--){
+            if(i >= BLOCK_SIZE - n ){
+                result[i] = (byte) n;
+            }
+            else {
+                result[i] = 0;
+            }
+        }
+
         return result;
     }
 
@@ -59,6 +69,8 @@ public class OraclePaddingClient {
             }
         }
 
+        result = xorArray(xorArray(iv,decoded),buildPaddingArray(BLOCK_SIZE- position));
+        result[position] = (byte) (result[position] ^ guess);
         return result;
     }
 
@@ -78,6 +90,8 @@ public class OraclePaddingClient {
          * TODO : Your Code HERE
          */
         // should not arrive here !
+        
+        
         return 0;
     }
 
@@ -182,6 +196,7 @@ public class OraclePaddingClient {
 
             //for (int i = 0; i < messageblocks.length - 1; i++) {
             for (int i = 0; i < 1; i++) {
+                
 
                 if (i == messageblocks.length - 2) {
                     System.out.print("Decodage du dernier bloc : calcul du padding");
