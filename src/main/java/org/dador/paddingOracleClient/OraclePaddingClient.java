@@ -49,7 +49,10 @@ public class OraclePaddingClient {
         /**
          * TODO : YOUR CODE HERE
          */
+        System.arraycopy(iv, 0, result, 0, BLOCK_SIZE); // Copier IV dans le résultat
 
+        // Modifier uniquement le dernier octet
+        result[BLOCK_SIZE - 1] = (byte) (iv[BLOCK_SIZE - 1] ^ guess ^ 0x01);
         return result;
     }
 
