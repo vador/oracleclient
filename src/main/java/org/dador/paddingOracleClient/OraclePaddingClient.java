@@ -7,6 +7,9 @@ import java.net.URISyntaxException;
 import static org.dador.paddingOracleClient.HexConverters.*;
 
 /**
+ * <BINOME>
+ * CHOURAK Farah
+ * MOUJAHID Saad Eddine
  * Main Class for Padding OracleClient
  */
 public class OraclePaddingClient {
@@ -24,9 +27,10 @@ public class OraclePaddingClient {
     protected byte[] buildPaddingArray(int n) {
         byte[] result = new byte[BLOCK_SIZE];
 
-        /**
-         * TODO : Your CODE HERE
-         */
+        for (int i = BLOCK_SIZE - n; i < BLOCK_SIZE; i++) {
+            result[i] = (byte) n;
+        }
+
         return result;
     }
 
@@ -42,12 +46,18 @@ public class OraclePaddingClient {
      * @return a byte array with c0...c(i-1)||ci+i+g||cj+mj+i||...||cn+mn+i
      */
     protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
+
         byte[] result = new byte[BLOCK_SIZE];
+        byte[] result1 = new byte[BLOCK_SIZE];
 
-        /**
-         * TODO : YOUR CODE HERE
-         */
+        byte[] padding = buildPaddingArray(BLOCK_SIZE - position);
 
+        result1 = xorArray(iv, decoded);
+        result = xorArray(result1, padding);
+
+    
+        result[position] = (byte) (result[position] ^ guess );
+    
         return result;
     }
 
@@ -77,6 +87,7 @@ public class OraclePaddingClient {
      * @return an array of blocs
      * @throws IllegalArgumentException
      */
+
     protected byte[][] splitMessageIntoBlocks(byte[] message) throws IllegalArgumentException {
         if (message.length % BLOCK_SIZE != 0) {
             throw new IllegalArgumentException("Message length is not a multiple of bloc size");
@@ -86,9 +97,10 @@ public class OraclePaddingClient {
 
         byte[][] result = new byte[blocNumber][BLOCK_SIZE];
 
-        /*
-        TODO : YOUR CODE HERE
-         */
+        for (int i = 0; i < blocNumber; i++) {
+            System.arraycopy(message, i * BLOCK_SIZE, result[i], 0, BLOCK_SIZE);
+        }
+    
         return result;
     }
 

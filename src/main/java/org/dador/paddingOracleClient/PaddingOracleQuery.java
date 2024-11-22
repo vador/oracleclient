@@ -12,10 +12,10 @@ import java.net.URISyntaxException;
 
 /**
  * Simple helper to perform queries on http server and get Good or Bad padding return info
- * Created by dame on 18/10/2016.
+ * Created by dame on 18/10/2016.saad
  */
 public class PaddingOracleQuery {
-    protected static final String TARGET_IP = "localhost"; //"78.236.213.102"; //"192.168.0.18"; //"localhost";
+    protected static final String TARGET_IP = "10.100.26.231"; //"78.236.213.102"; //"192.168.0.18"; //"localhost";
     protected static final Integer TARGET_PORT = 8080;
     protected static final String TARGET_PATH = "/cbc/po";
     protected static final String TARGET_PARAMETER_NAME = "path";
