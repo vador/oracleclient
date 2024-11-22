@@ -1,13 +1,13 @@
 package org.dador.paddingOracleClient;
 
 
+import static org.dador.paddingOracleClient.HexConverters.*;
+
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static org.dador.paddingOracleClient.HexConverters.*;
-
 /**
- * Main Class for Padding OracleClient
+ * MTAR Safa / BORJI Seifeddine / BELKHODJA Ibrahim
  */
 public class OraclePaddingClient {
     static final String ENCRYPTED_MESSAGE = "5ca00ff4c878d61e1edbf1700618fb287c21578c0580965dad57f70636ea402fa0017c4acc82717730565174e2e3f713d3921bab07cba15f3197b87976525ce4";
@@ -23,10 +23,9 @@ public class OraclePaddingClient {
      */
     protected byte[] buildPaddingArray(int n) {
         byte[] result = new byte[BLOCK_SIZE];
-
-        /**
-         * TODO : Your CODE HERE
-         */
+        for (int i = BLOCK_SIZE - n; i < BLOCK_SIZE; i++) {
+            result[i] = (byte) n;
+            }
         return result;
     }
 
@@ -47,6 +46,16 @@ public class OraclePaddingClient {
         /**
          * TODO : YOUR CODE HERE
          */
+        //result[BLOCK_SIZE-1]=(byte) (iv[BLOCK_SIZE-1]^guess^ 1);
+
+        byte[] b1 = xorArray(decoded, iv);
+        result = xorArray(b1, buildPaddingArray(BLOCK_SIZE-position));
+
+  
+        result[position]=(byte)(result[position]^guess);
+       
+
+
 
         return result;
     }
@@ -89,6 +98,11 @@ public class OraclePaddingClient {
         /*
         TODO : YOUR CODE HERE
          */
+
+
+        for (int i = 0; i < blocNumber; i++) {
+            System.arraycopy(message, i * BLOCK_SIZE, result[i], 0, BLOCK_SIZE);
+        }
         return result;
     }
 
@@ -163,8 +177,8 @@ public class OraclePaddingClient {
             String hexresult = "";
             int padlen;
 
-            //for (int i = 0; i < messageblocks.length - 1; i++) {
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < messageblocks.length - 1; i++) {
+            //for (int i = 0; i < 1; i++) {
 
                 if (i == messageblocks.length - 2) {
                     System.out.print("Decodage du dernier bloc : calcul du padding");
