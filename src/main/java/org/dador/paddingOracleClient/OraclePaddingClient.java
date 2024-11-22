@@ -1,12 +1,13 @@
 package org.dador.paddingOracleClient;
 
-
 import java.io.IOException;
 import java.net.URISyntaxException;
 
 import static org.dador.paddingOracleClient.HexConverters.*;
 
 /**
+ * Alioune BALDE
+ * Mame Diarra SEYDI
  * Main Class for Padding OracleClient
  */
 public class OraclePaddingClient {
@@ -62,7 +63,8 @@ public class OraclePaddingClient {
      * @throws IOException
      * @throws URISyntaxException
      */
-    public int getPaddingLengthForLastBlock(PaddingOracleQuery poq, byte[] previousbloc, byte[] lastbloc) throws IOException, URISyntaxException {
+    public int getPaddingLengthForLastBlock(PaddingOracleQuery poq, byte[] previousbloc, byte[] lastbloc)
+            throws IOException, URISyntaxException {
         /**
          * TODO : Your Code HERE
          */
@@ -87,7 +89,7 @@ public class OraclePaddingClient {
         byte[][] result = new byte[blocNumber][BLOCK_SIZE];
 
         /*
-        TODO : YOUR CODE HERE
+         * TODO : YOUR CODE HERE
          */
         return result;
     }
@@ -99,12 +101,14 @@ public class OraclePaddingClient {
      * @param poq        : a PaddingOracleQuery object to query server
      * @param iv         : the "iv" part of the 2 blocks query
      * @param ciphertext : the block that will be decrypted
-     * @param padding    : set to 0 if not the last block. Set to paddinglength if last block
+     * @param padding    : set to 0 if not the last block. Set to paddinglength if
+     *                   last block
      * @return a decrypted byte array
      * @throws IOException
      * @throws URISyntaxException
      */
-    public byte[] decryptBlock(PaddingOracleQuery poq, byte[] iv, byte[] ciphertext, int padding) throws IOException, URISyntaxException {
+    public byte[] decryptBlock(PaddingOracleQuery poq, byte[] iv, byte[] ciphertext, int padding)
+            throws IOException, URISyntaxException {
         byte[] decoded = new byte[BLOCK_SIZE]; // This contains the decoded part of the block
         byte guess;
 
@@ -123,7 +127,8 @@ public class OraclePaddingClient {
         return decoded;
     }
 
-    private byte getByteAtPosition(PaddingOracleQuery poq, byte[] iv, byte[] decoded, String hexBloc, int pos) throws IOException, URISyntaxException {
+    private byte getByteAtPosition(PaddingOracleQuery poq, byte[] iv, byte[] decoded, String hexBloc, int pos)
+            throws IOException, URISyntaxException {
         String query; // requête représenté en chaine hexadécimale
         byte[] bquery; // requete sous forme byte array
 
@@ -163,7 +168,7 @@ public class OraclePaddingClient {
             String hexresult = "";
             int padlen;
 
-            //for (int i = 0; i < messageblocks.length - 1; i++) {
+            // for (int i = 0; i < messageblocks.length - 1; i++) {
             for (int i = 0; i < 1; i++) {
 
                 if (i == messageblocks.length - 2) {
@@ -193,4 +198,3 @@ public class OraclePaddingClient {
     }
 
 }
-
