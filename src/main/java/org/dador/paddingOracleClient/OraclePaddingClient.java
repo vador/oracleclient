@@ -87,10 +87,10 @@ public class OraclePaddingClient {
         int blocNumber = message.length / BLOCK_SIZE;
 
         byte[][] result = new byte[blocNumber][BLOCK_SIZE];
-
-        /*
-         * TODO : YOUR CODE HERE
-         */
+        // Split the message into blocs
+        for (int i = 0; i < blocNumber; i++) {
+            System.arraycopy(message, i * BLOCK_SIZE, result[i], 0, BLOCK_SIZE);
+        }
         return result;
     }
 
