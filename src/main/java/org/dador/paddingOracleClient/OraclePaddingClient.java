@@ -1,22 +1,30 @@
 package org.dador.paddingOracleClient;
 
+/*
+Iman ESSADIKI
+Mohamadou Lamine DIOUM
+Rimy HANOU
+ */
 
 import java.io.IOException;
 import java.net.URISyntaxException;
 
-import static org.dador.paddingOracleClient.HexConverters.*;
+import static org.dador.paddingOracleClient.HexConverters.toByteArrayFromHex;
+import static org.dador.paddingOracleClient.HexConverters.toHexFromByteArray;
+import static org.dador.paddingOracleClient.HexConverters.toPrintableString;
+import static org.dador.paddingOracleClient.HexConverters.xorArray;
 
 /**
  * Main Class for Padding OracleClient
  */
 public class OraclePaddingClient {
+
     static final String ENCRYPTED_MESSAGE = "5ca00ff4c878d61e1edbf1700618fb287c21578c0580965dad57f70636ea402fa0017c4acc82717730565174e2e3f713d3921bab07cba15f3197b87976525ce4";
     static final int BLOCK_SIZE = 16;
 
     /**
      * Fonction prenant un nombre et qui cree un bloc contenant la valeur x00 ,
-     * avec un padding PKCS#7
-     * exemple : n=3 donne is 00 00 .. 00 03 03 03
+     * avec un padding PKCS#7 exemple : n=3 donne is 00 00 .. 00 03 03 03
      *
      * @param n : number of bytes of padding
      * @return byte[BLOCK_SIZE] filled with 0 and padding values
@@ -26,38 +34,50 @@ public class OraclePaddingClient {
 
         /**
          * TODO : Your CODE HERE
-         */
+                  */
+        for (int i = BLOCK_SIZE-n; i < BLOCK_SIZE; i++) {
+
+            result[i]= (byte) n;
+        }
         return result;
     }
 
     /**
-     * Fonction qui cree un bloc de cryptogramme modifie, pour essayer
-     * de deviner la valeur a cette position
-     * Note that the "ciphertext" correspond to the IV part for the Block Cipher
+     * Fonction qui cree un bloc de cryptogramme modifie, pour essayer de
+     * deviner la valeur a cette position Note that the "ciphertext" correspond
+     * to the IV part for the Block Cipher
      *
-     * @param iv       : original ciphertext bloc
-     * @param decoded  : decrypted part of the plain text (for next bloc)
+     * @param iv : original ciphertext bloc
+     * @param decoded : decrypted part of the plain text (for next bloc)
      * @param position : position of the byte to guess
-     * @param guess    : the guess for this query
+     * @param guess : the guess for this query
      * @return a byte array with c0...c(i-1)||ci+i+g||cj+mj+i||...||cn+mn+i
      */
+    int iV;
     protected byte[] buildGuessForPosition(byte[] iv, byte[] decoded, int position, byte guess) {
         byte[] result = new byte[BLOCK_SIZE];
 
         /**
          * TODO : YOUR CODE HERE
-         */
+         
+            // result[BLOCK_SIZE-1]= (byte)(iv[BLOCK_SIZE-1] ^ guess ^ 1 );
+            /* 
+        /*  */
+        byte[] b= xorArray(decoded, iv );
 
+        result= xorArray(b, buildPaddingArray(BLOCK_SIZE-position));
+
+        result[position]=(byte)(result[position]^ guess);
         return result;
     }
 
     /**
-     * Function that takes the 2 last blocks of the message
-     * and returns the length of the padding.
+     * Function that takes the 2 last blocks of the message and returns the
+     * length of the padding.
      *
-     * @param poq          : a PaddingOracleQuery object
+     * @param poq : a PaddingOracleQuery object
      * @param previousbloc : next to last block of the ciphertext
-     * @param lastbloc     : last bloc of the ciphertext
+     * @param lastbloc : last bloc of the ciphertext
      * @return an integer corresponding to padding length
      * @throws IOException
      * @throws URISyntaxException
@@ -89,17 +109,24 @@ public class OraclePaddingClient {
         /*
         TODO : YOUR CODE HERE
          */
+        for (int i = 0; i < blocNumber; i++) {
+            for (int j = 0; j < BLOCK_SIZE; j++) {
+                result[i][j] = message[i * BLOCK_SIZE + j];
+            }
+        }
+
         return result;
     }
 
     /**
-     * Function that takes 2 consecutive blocks of the ciphertext
-     * and returns the decryption of the 2nd message block
+     * Function that takes 2 consecutive blocks of the ciphertext and returns
+     * the decryption of the 2nd message block
      *
-     * @param poq        : a PaddingOracleQuery object to query server
-     * @param iv         : the "iv" part of the 2 blocks query
+     * @param poq : a PaddingOracleQuery object to query server
+     * @param iv : the "iv" part of the 2 blocks query
      * @param ciphertext : the block that will be decrypted
-     * @param padding    : set to 0 if not the last block. Set to paddinglength if last block
+     * @param padding : set to 0 if not the last block. Set to paddinglength if
+     * last block
      * @return a decrypted byte array
      * @throws IOException
      * @throws URISyntaxException
@@ -193,4 +220,3 @@ public class OraclePaddingClient {
     }
 
 }
-
